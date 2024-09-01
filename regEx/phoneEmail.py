@@ -1,17 +1,6 @@
 #! python 3
 
-import re, subprocess
-
-# Function to copy text to clipboard
-def copy_to_clipboard(text):
-    process = subprocess.Popen(['xclip', '-selection', 'clipboard'], stdin=subprocess.PIPE)
-    process.communicate(input=text.encode('utf-8'))
-
-# Function to paste text from clipboard
-def paste_from_clipboard():
-    process = subprocess.Popen(['xclip', '-selection', 'clipboard', '-o'], stdout=subprocess.PIPE)
-    output, _ = process.communicate()
-    return output.decode('utf-8')
+import re, clipy
 
 # Create RegEx for email
 myEmailRegEx = re.compile(r'[^\s@]+@[^\s@]+\.[a-zA-Z]{3}(\.[a-zA-Z]{2})?')
@@ -39,7 +28,7 @@ phoneRegEx = re.compile(r'''
 ''', re.VERBOSE)
 
 # Get text of clipboard
-text = paste_from_clipboard()
+text = clipy.paste()
 
 # Extract email phone & name from text
 extPhone = phoneRegEx.findall(text)
@@ -52,7 +41,7 @@ allMails = [ml[0] for ml in extMail]
 
 txt = "\n\n".join([f"Mail: {mail}\nPhone: {phone}" for mail, phone in zip(allPhones, allMails)])
     
-copy_to_clipboard(txt)
+clipy.copy(txt)
 
 
 # Text copied
