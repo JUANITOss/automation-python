@@ -1,0 +1,2 @@
+Hello, this is a simple text file created and read by Python!
+Now we have 2 lines of text!
